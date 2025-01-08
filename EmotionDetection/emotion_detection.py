@@ -5,6 +5,8 @@ def emotion_detector(text_to_analyse):
     headers = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
     jsonData = { "raw_document": { "text": text_to_analyse } }
     resRaw = requests.post(url, json=jsonData, headers=headers)
+    if resRaw.status_code == 400:
+        return {"anger":None, "disgust":None,"fear":None,"joy":None,"sadness": None, "dominant_emotion":None}
     resjson = json.loads(resRaw.text)  
     emotions = {}
     for key,value in resjson.items():
